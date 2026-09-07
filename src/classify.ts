@@ -115,10 +115,10 @@ export function explainExclusion(kind: RecordingKind): string | null {
       return null;
     }
     case 'whisper': {
-      return 'Wip（短時間録音）はパイプライン対象外';
+      return 'Wip (short recording) is not eligible for the pipeline';
     }
     case 'unknown': {
-      return 'ファイル名が既知の形式に合わないため、安全側に倒して除外';
+      return "Filename doesn't match a known format, excluded to be safe";
     }
   }
 }

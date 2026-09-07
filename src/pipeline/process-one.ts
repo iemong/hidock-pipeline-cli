@@ -43,10 +43,10 @@ export async function processRecording(
   recording: Recording,
 ): Promise<RecordingResult> {
   if (!isPipelineEligible(recording.kind)) {
-    return skip(recording, 'not-meeting', `${recording.kind} は対象外`);
+    return skip(recording, 'not-meeting', `${recording.kind} is not eligible`);
   }
   if (context.processed.has(recording.signature)) {
-    return skip(recording, 'already-processed', '取り込み済み');
+    return skip(recording, 'already-processed', 'already imported');
   }
 
   let localPath: string;
@@ -58,7 +58,7 @@ export async function processRecording(
 
   const durationSeconds = await probeDurationSeconds(context.runner, localPath);
   if (durationSeconds < MIN_DURATION_SECONDS) {
-    return skip(recording, 'too-short', `${Math.round(durationSeconds)}秒`);
+    return skip(recording, 'too-short', `${Math.round(durationSeconds)}s`);
   }
 
   const fileUri = await uploadAudio(context.runner, {

@@ -23,8 +23,7 @@ export class NoMatchError extends Error {
   constructor(pick: string, candidates: readonly Recording[]) {
     const list = candidates.map((r) => r.name).join(', ');
     super(
-      `「${pick}」に該当する未取り込みの会議がありません。` +
-        (list === '' ? '' : ` 候補: ${list}`),
+      `No pending recording matches "${pick}".${list === '' ? '' : ` Candidates: ${list}`}`,
     );
     this.name = 'NoMatchError';
   }
@@ -106,10 +105,10 @@ function selectTargets(
 
 function describeWhyNotSelected(context: PipelineContext, recording: Recording): string {
   if (!isPipelineEligible(recording.kind)) {
-    return `${recording.kind} は対象外`;
+    return `${recording.kind} is not eligible`;
   }
   if (context.processed.has(recording.signature)) {
-    return '取り込み済み';
+    return 'already imported';
   }
-  return '選ばれなかった';
+  return 'not selected';
 }
