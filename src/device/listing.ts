@@ -22,27 +22,27 @@ function readSize(source: Record<string, unknown>): number | null {
  */
 function toRecording(entry: unknown): Recording | string {
   if (!isRecord(entry)) {
-    return '要素がオブジェクトではない';
+    return 'entry is not an object';
   }
 
   const name = readString(entry, 'name');
   if (name === null) {
-    return 'name が無い';
+    return 'missing name';
   }
 
   const sizeBytes = readSize(entry);
   if (sizeBytes === null) {
-    return `${name}: length が正の数値ではない`;
+    return `${name}: length is not a positive number`;
   }
 
   const signature = readString(entry, 'signature');
   if (signature === null) {
-    return `${name}: signature が無い`;
+    return `${name}: missing signature`;
   }
 
   const parsed = parseRecording(name);
   if (parsed === null) {
-    return `${name}: ファイル名が既知の形式に合わない`;
+    return `${name}: filename doesn't match a known format`;
   }
 
   return { name, sizeBytes, recordedAt: parsed.recordedAt, kind: parsed.kind, signature };
@@ -58,7 +58,7 @@ export function parseDeviceListing(raw: unknown): ListingParseResult {
   if (entries === null) {
     return {
       recordings: [],
-      skipped: ['応答が配列でも files を持つオブジェクトでもない'],
+      skipped: ["response is neither an array nor an object with a 'files' property"],
     };
   }
 

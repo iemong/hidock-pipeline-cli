@@ -27,7 +27,7 @@ export class CommandFailedError extends Error {
   readonly stderr: string;
 
   constructor(command: string, stderr: string, cause?: unknown) {
-    super(`コマンドが失敗した: ${command}\n${stderr}`, { cause });
+    super(`Command failed: ${command}\n${stderr}`, { cause });
     this.name = 'CommandFailedError';
     this.command = command;
     this.stderr = stderr;

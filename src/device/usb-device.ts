@@ -82,7 +82,7 @@ export function createUsbDevice(transport: Transport): UsbRecorderDevice {
       // 短いファイルとして扱われると too-short で静かに捨てられる。
       if (data.length < recording.sizeBytes) {
         throw new Error(
-          `録音を最後まで取得できなかった: ${recording.name} ` +
+          `Could not fully download recording: ${recording.name} ` +
             `(${data.length}/${recording.sizeBytes} bytes)`,
         );
       }

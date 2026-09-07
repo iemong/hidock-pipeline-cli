@@ -70,7 +70,7 @@ function extractText(content: unknown): string {
 
 export class GeminiApiError extends Error {
   constructor(detail: string) {
-    super(`Gemini API がエラーを返した: ${detail}`);
+    super(`Gemini API returned an error: ${detail}`);
     this.name = 'GeminiApiError';
   }
 }
@@ -82,7 +82,7 @@ export class GeminiApiError extends Error {
  */
 export function parseGeminiResponse(raw: unknown): GeminiOutput {
   if (!isRecord(raw)) {
-    throw new GeminiApiError('応答が JSON オブジェクトではない');
+    throw new GeminiApiError('response is not a JSON object');
   }
 
   const error = raw['error'];
@@ -95,12 +95,12 @@ export function parseGeminiResponse(raw: unknown): GeminiOutput {
 
   const candidates = raw['candidates'];
   if (!Array.isArray(candidates) || candidates.length === 0) {
-    throw new GeminiApiError('candidates が空');
+    throw new GeminiApiError('candidates is empty');
   }
 
   const first: unknown = candidates[0];
   if (!isRecord(first)) {
-    throw new GeminiApiError('candidates[0] が不正');
+    throw new GeminiApiError('candidates[0] is invalid');
   }
 
   const finishReason = first['finishReason'];

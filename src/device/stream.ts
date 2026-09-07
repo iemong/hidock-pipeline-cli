@@ -14,7 +14,7 @@ export class IncompleteResponseError extends Error {
   readonly expected: number;
 
   constructor(received: number, expected: number) {
-    super(`応答が時間内に完了しなかった (${received}/${expected} bytes)`);
+    super(`Response did not complete in time (${received}/${expected} bytes)`);
     this.name = 'IncompleteResponseError';
     this.received = received;
     this.expected = expected;

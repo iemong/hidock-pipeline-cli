@@ -117,7 +117,7 @@ describe('createUsbDevice', () => {
     const device = createUsbDevice(stubTransport(() => new Uint8Array(10)));
 
     await expect(device.downloadRecording(RECORDING)).rejects.toThrow(
-      '最後まで取得できなかった',
+      'Could not fully download recording',
     );
   });
 

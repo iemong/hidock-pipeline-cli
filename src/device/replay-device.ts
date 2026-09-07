@@ -27,7 +27,7 @@ export function createReplayDevice(
       const audio = audioByName.get(recording.name);
       if (audio === undefined) {
         return Promise.reject(
-          new Error(`リプレイ用の音声が用意されていない: ${recording.name}`),
+          new Error(`No replay audio available for: ${recording.name}`),
         );
       }
       return Promise.resolve(audio);

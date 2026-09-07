@@ -40,9 +40,7 @@ export async function accessToken(runner: CommandRunner): Promise<string> {
   const token = stdout.trim();
 
   if (token.length === 0) {
-    throw new Error(
-      'アクセストークンを取得できない。`gcloud auth login` を実行すること。',
-    );
+    throw new Error('Could not get an access token. Run `gcloud auth login` first.');
   }
 
   return token;

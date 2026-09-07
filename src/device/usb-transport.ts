@@ -46,7 +46,7 @@ export interface Transport {
 
 export class DeviceNotFoundError extends Error {
   constructor() {
-    super('HiDock P1 が見つからない。USB-C で接続されているか確認すること。');
+    super('HiDock P1 not found. Check that it is connected via USB-C.');
     this.name = 'DeviceNotFoundError';
   }
 }
@@ -54,8 +54,8 @@ export class DeviceNotFoundError extends Error {
 export class DeviceBusyError extends Error {
   constructor(cause: unknown) {
     super(
-      'P1 が他のプロセスに使われている。' +
-        'HiNotes や別の取り込み処理が動いていないか確認すること。',
+      'The P1 is in use by another process. Check that HiNotes or ' +
+        'another import job is not already running.',
       { cause },
     );
     this.name = 'DeviceBusyError';
@@ -155,7 +155,7 @@ export async function openTransport(): Promise<Transport> {
       const head = await reader.read();
       const header = parseResponseHeader(head);
       if (header === null) {
-        throw new Error(`応答ヘッダを解析できない (${head.length} bytes)`);
+        throw new Error(`Could not parse response header (${head.length} bytes)`);
       }
 
       return readBody({
