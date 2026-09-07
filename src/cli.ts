@@ -1,6 +1,9 @@
 #!/usr/bin/env node
+import { readFile } from 'node:fs/promises';
 import process from 'node:process';
 
+import { createReplayDevice } from './device/replay-device.ts';
+import type { RecorderDevice } from './device/types.ts';
 import { openUsbDevice } from './device/usb-device.ts';
 import { systemRunner } from './exec.ts';
 import { accessToken } from './gcs/upload.ts';
@@ -43,12 +46,29 @@ const UNUSED_CONFIG: GeminiConfig = {
   maxAttempts: 0,
 };
 
+/**
+ * Set HIDOCK_DEVICE=replay to exercise the CLI against fixtures/device-listing.json
+ * instead of a real HiDock P1 — useful for development, screenshots, and demos.
+ */
+async function openDevice(): Promise<{
+  readonly device: RecorderDevice;
+  readonly close: () => Promise<void>;
+}> {
+  if (process.env['HIDOCK_DEVICE'] === 'replay') {
+    const fixtureUrl = new URL('../fixtures/device-listing.json', import.meta.url);
+    const rawListing: unknown = JSON.parse(await readFile(fixtureUrl, 'utf8'));
+    return { device: createReplayDevice(rawListing), close: () => Promise.resolve() };
+  }
+  const usbDevice = await openUsbDevice();
+  return { device: usbDevice, close: usbDevice.close };
+}
+
 async function buildContext(
   args: Args,
 ): Promise<PipelineContext & { close: () => Promise<void> }> {
   const runner = systemRunner;
   const paths = defaultPaths();
-  const device = await openUsbDevice();
+  const { device, close } = await openDevice();
 
   return {
     device,
@@ -59,7 +79,7 @@ async function buildContext(
     paths,
     processed: await loadProcessedStore(paths.stateFile),
     gemini: { fetch: globalThis.fetch, token: () => accessToken(runner) },
-    close: device.close,
+    close,
   };
 }
 
