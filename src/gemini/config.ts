@@ -1,7 +1,7 @@
 /**
  * Gemini / GCS configuration.
  *
- * Most values are tuned from real-world testing (see `fixtures/phase0-result.json`).
+ * Most values are tuned from real-world testing.
  * `GCP_PROJECT` has no default — every user has their own GCP project, so we
  * fail fast with setup instructions rather than silently pointing at someone else's.
  */
