@@ -96,21 +96,21 @@ describe('formatStatus', () => {
   it('未取り込みがあれば一覧と合計を出す', async () => {
     const text = formatStatus(await collectStatus(await makeContext([recording()])));
 
-    expect(text).toContain('未取り込み 1件');
+    expect(text).toContain('1 pending');
     expect(text).toContain('Rec14');
-    expect(text).toContain('29分');
+    expect(text).toContain('29m');
   });
 
   it('取り込み方を案内する', async () => {
     const text = formatStatus(await collectStatus(await makeContext([recording()])));
-    expect(text).toContain('HiDock 取り込み');
+    expect(text).toContain('Import Meeting');
   });
 
   it('何も無ければその旨だけ返す', async () => {
     const text = formatStatus(await collectStatus(await makeContext([])));
 
-    expect(text).toContain('未取り込みの会議はありません');
-    expect(text).not.toContain('HiDock 取り込み');
+    expect(text).toContain('No pending recordings.');
+    expect(text).not.toContain('Import Meeting');
   });
 
   it('デバイスの内訳を添える', async () => {
@@ -120,7 +120,7 @@ describe('formatStatus', () => {
     ]);
     const text = formatStatus(await collectStatus(context));
 
-    expect(text).toContain('デバイス上 2件');
-    expect(text).toContain('Wip 1');
+    expect(text).toContain('2 on device');
+    expect(text).toContain('whisper');
   });
 });

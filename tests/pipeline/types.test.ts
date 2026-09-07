@@ -53,16 +53,16 @@ describe('summarize', () => {
 
 describe('describeSummary', () => {
   it('何も無ければその旨を返す', () => {
-    expect(describeSummary(summarize([]))).toBe('新しい録音はありません');
+    expect(describeSummary(summarize([]))).toBe('No new recordings.');
   });
 
   it('全て対象外なら件数を添える', () => {
-    expect(describeSummary(summarize([skipped]))).toContain('1件');
+    expect(describeSummary(summarize([skipped]))).toContain('1 skipped');
   });
 
   it('作成件数とコストを返す', () => {
     const message = describeSummary(summarize([processed(0.088), processed(0.1)]));
-    expect(message).toContain('2件');
+    expect(message).toContain('Created 2 meeting note(s)');
     expect(message).toContain('$0.188');
   });
 });

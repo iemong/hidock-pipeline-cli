@@ -49,10 +49,10 @@ export function describeSummary(summary: PipelineSummary): string {
 
   if (processed.length === 0) {
     return skipped === 0
-      ? '新しい録音はありません'
-      : `取り込んだ会議はありません（${skipped}件）`;
+      ? 'No new recordings.'
+      : `Nothing imported (${skipped} skipped).`;
   }
 
   const cost = summary.totalCostUsd.toFixed(3);
-  return `会議メモ ${processed.length}件を作成しました（$${cost}）`;
+  return `Created ${processed.length} meeting note(s) ($${cost}).`;
 }

@@ -73,7 +73,7 @@ export async function chooseRecordings(
   }
 
   const byLabel = new Map(candidates.map((r) => [describeChoice(r), r]));
-  const prompt = `取り込む会議を選んでください（${candidates.length}件）`;
+  const prompt = `Choose recordings to import (${candidates.length} available)`;
 
   const { stdout } = await runner.run('osascript', [
     '-e',

@@ -27,7 +27,7 @@ describe('probeDurationSeconds', () => {
       const runner = fakeRunner({ ffprobe: { stdout, stderr: '' } });
 
       await expect(probeDurationSeconds(runner, '/tmp/a.hda')).rejects.toThrow(
-        '音声の長さを取得できない',
+        'Could not determine audio duration',
       );
     },
   );
@@ -44,12 +44,12 @@ describe('probeDurationSeconds', () => {
 
 describe('formatDuration', () => {
   it.each([
-    [45, '45秒'],
-    [90, '1分'],
-    [2344, '39分'],
-    [3600, '1時間0分'],
-    [4500, '1時間15分'],
-  ])('%s 秒を %s と表示する', (seconds, expected) => {
+    [45, '45s'],
+    [90, '1m'],
+    [2344, '39m'],
+    [3600, '1h 0m'],
+    [4500, '1h 15m'],
+  ])('formats %s seconds as %s', (seconds, expected) => {
     expect(formatDuration(seconds)).toBe(expected);
   });
 });

@@ -82,11 +82,11 @@ async function main(): Promise<number> {
     // 黙って取りこぼすと「全部処理された」と誤解する。
     for (const result of summary.results) {
       if (result.status === 'processed') {
-        process.stdout.write(`  [作成] ${result.recording.name}\n`);
+        process.stdout.write(`  [created] ${result.recording.name}\n`);
         process.stdout.write(`         ${result.notePath}\n`);
       } else if (result.reason !== 'not-selected') {
         process.stdout.write(
-          `  [除外] ${result.recording.name} (${result.reason}: ${result.detail})\n`,
+          `  [excluded] ${result.recording.name} (${result.reason}: ${result.detail})\n`,
         );
       }
     }
@@ -108,7 +108,7 @@ try {
   process.stderr.write(`${message}\n`);
 
   try {
-    await notify(systemRunner, { title: 'HiDock', message: `失敗: ${message}` });
+    await notify(systemRunner, { title: 'HiDock', message: `Failed: ${message}` });
   } catch {
     // 通知が出せなくても終了処理は続ける
   }

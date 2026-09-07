@@ -22,23 +22,25 @@ export async function probeDurationSeconds(
 
   const seconds = Number.parseFloat(stdout.trim());
   if (!Number.isFinite(seconds) || seconds <= 0) {
-    throw new Error(`音声の長さを取得できない: ${filePath} (出力: ${stdout.trim()})`);
+    throw new Error(
+      `Could not determine audio duration: ${filePath} (output: ${stdout.trim()})`,
+    );
   }
 
   return seconds;
 }
 
-/** 秒を「1時間5分」のような表示に整える */
+/** Formats seconds as e.g. "1h 5m" */
 export function formatDuration(seconds: number): string {
   const total = Math.round(seconds);
   const hours = Math.floor(total / 3600);
   const minutes = Math.floor((total % 3600) / 60);
 
   if (hours > 0) {
-    return `${hours}時間${minutes}分`;
+    return `${hours}h ${minutes}m`;
   }
   if (minutes > 0) {
-    return `${minutes}分`;
+    return `${minutes}m`;
   }
-  return `${total}秒`;
+  return `${total}s`;
 }

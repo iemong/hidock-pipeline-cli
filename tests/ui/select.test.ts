@@ -18,12 +18,12 @@ function recording(overrides: Partial<Recording> = {}): Recording {
 describe('describeChoice', () => {
   it('日時・長さ・費用・番号を1行にまとめる', () => {
     // 実機 Rec13: 26.8MB = 約39分、実測コスト $0.139
-    expect(describeChoice(recording())).toBe('07/27 20:59  39分  $0.09  Rec13');
+    expect(describeChoice(recording())).toBe('07/27 20:59  39m  $0.09  Rec13');
   });
 
   it('短い録音も読める形にする', () => {
     const line = describeChoice(recording({ sizeBytes: 600_000 }));
-    expect(line).toContain('50秒');
+    expect(line).toContain('50s');
   });
 });
 
@@ -81,7 +81,7 @@ describe('chooseRecordings', () => {
     const script = runner.calls[0]?.args[1] ?? '';
     expect(script).toContain('choose from list');
     expect(script).toContain('multiple selections allowed');
-    expect(script).toContain('1件');
+    expect(script).toContain('1 available');
   });
 
   it('見覚えのない行は無視する', async () => {

@@ -39,23 +39,23 @@ export function formatStatus(report: StatusReport): string {
   const lines: string[] = [];
 
   if (report.pending.length === 0) {
-    lines.push('未取り込みの会議はありません');
+    lines.push('No pending recordings.');
   } else {
     lines.push(
-      `未取り込み ${report.pending.length}件（合計 $${report.estimatedUsd.toFixed(2)}）`,
+      `${report.pending.length} pending (total $${report.estimatedUsd.toFixed(2)})`,
     );
     lines.push('');
     for (const recording of report.pending) {
       lines.push(`  ${describeChoice(recording)}`);
     }
     lines.push('');
-    lines.push('取り込むには「HiDock 取り込み」に Rec番号 を渡してください');
+    lines.push('Pass a Rec number to "Import Meeting" to import it.');
   }
 
   lines.push('');
   lines.push(
-    `デバイス上 ${report.totalCount}件` +
-      `（会議 ${report.meetingCount} / Wip ${report.whisperCount}）`,
+    `${report.totalCount} on device` +
+      ` (${report.meetingCount} meetings / ${report.whisperCount} whisper)`,
   );
 
   return lines.join('\n');
