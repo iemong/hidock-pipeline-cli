@@ -9,7 +9,7 @@
     "url": "git+https://github.com/iemong/hidock-pipeline-cli.git"
   },
   "bin": {
-    "hidock": "./dist/cli.js"
+    "hidock": "dist/cli.js"
   },
   "files": [
     "dist",
@@ -31,7 +31,7 @@
     "check:fix": "biome check --write --error-on-warnings .",
     "deps:cycle": "madge --circular --extensions ts src",
     "start": "node src/cli.ts",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && chmod +x dist/cli.js",
     "prepublishOnly": "npm run verify && npm run build"
   },
   "devDependencies": {
