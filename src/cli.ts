@@ -4,7 +4,7 @@ import process from 'node:process';
 import { openUsbDevice } from './device/usb-device.ts';
 import { systemRunner } from './exec.ts';
 import { accessToken } from './gcs/upload.ts';
-import { loadConfig } from './gemini/config.ts';
+import { type GeminiConfig, loadConfig } from './gemini/config.ts';
 import { notify } from './notify.ts';
 import { defaultPaths, type PipelineContext } from './pipeline/context.ts';
 import { runPipeline } from './pipeline/run.ts';
@@ -32,7 +32,20 @@ function parseArgs(argv: readonly string[]): Args {
   };
 }
 
-async function buildContext(): Promise<PipelineContext & { close: () => Promise<void> }> {
+/** Placeholder used for --list, which never reads Gemini/GCS config. */
+const UNUSED_CONFIG: GeminiConfig = {
+  project: '',
+  location: '',
+  model: '',
+  temperature: 0,
+  bucket: '',
+  maxOutputTokens: 0,
+  maxAttempts: 0,
+};
+
+async function buildContext(
+  args: Args,
+): Promise<PipelineContext & { close: () => Promise<void> }> {
   const runner = systemRunner;
   const paths = defaultPaths();
   const device = await openUsbDevice();
@@ -40,7 +53,9 @@ async function buildContext(): Promise<PipelineContext & { close: () => Promise<
   return {
     device,
     runner,
-    config: loadConfig(),
+    // Listing never touches Gemini/GCS, so don't force GCP_PROJECT setup
+    // just to see what's pending.
+    config: args.listOnly ? UNUSED_CONFIG : loadConfig(),
     paths,
     processed: await loadProcessedStore(paths.stateFile),
     gemini: { fetch: globalThis.fetch, token: () => accessToken(runner) },
@@ -58,7 +73,7 @@ async function buildContext(): Promise<PipelineContext & { close: () => Promise<
  */
 async function main(): Promise<number> {
   const args = parseArgs(process.argv.slice(2));
-  const context = await buildContext();
+  const context = await buildContext(args);
 
   try {
     if (args.listOnly) {
