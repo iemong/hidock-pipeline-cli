@@ -28,8 +28,7 @@ export interface PipelineContext {
   readonly vocabulary?: readonly string[] | undefined;
 }
 
-const VAULT_RELATIVE =
-  'Library/Mobile Documents/iCloud~md~obsidian/Documents/98-AI-Insights/hidock';
+const VAULT_RELATIVE = 'Documents/hidock-notes';
 
 /**
  * 既定のパス。

@@ -12,15 +12,10 @@ describe('defaultPaths', () => {
     expect(paths.inbox).not.toContain('Mobile Documents');
   });
 
-  it('出力先は Vault の 98-AI-Insights 配下', () => {
+  it('出力先はホーム配下の hidock-notes', () => {
     const paths = defaultPaths({});
 
-    expect(paths.noteDir).toContain('98-AI-Insights/hidock');
-    expect(paths.noteDir).toContain('iCloud~md~obsidian');
-  });
-
-  it('事実ログ（Timestamps）には書かない', () => {
-    expect(defaultPaths({}).noteDir).not.toContain('Timestamps');
+    expect(paths.noteDir).toBe(`${homedir()}/Documents/hidock-notes`);
   });
 
   it('取り込み記録は作業領域の中に置く', () => {
