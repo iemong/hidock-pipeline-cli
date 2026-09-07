@@ -57,7 +57,7 @@ async function makeContext(recordings: readonly Recording[]): Promise<PipelineCo
     device: device(recordings),
     runner: fakeRunner({ ffprobe: { stdout: '2344.83', stderr: '' } }),
     gemini,
-    config: loadConfig({}),
+    config: loadConfig({ GCP_PROJECT: 'test-project' }),
     processed: await loadProcessedStore(paths.stateFile),
     paths,
   };

@@ -7,7 +7,8 @@ import {
 } from '../../src/gemini/client.ts';
 import { loadConfig } from '../../src/gemini/config.ts';
 
-const CONFIG = loadConfig({});
+const CONFIG = loadConfig({ GCP_PROJECT: 'test-project' });
+const GCP_PROJECT_ERROR = /GCP_PROJECT/;
 
 const REQUEST = {
   fileUri: 'gs://bucket/audio/rec.mp3',
@@ -102,7 +103,7 @@ describe('generate', () => {
 
 describe('loadConfig', () => {
   it('実測で決めた既定値を持つ', () => {
-    const config = loadConfig({});
+    const config = loadConfig({ GCP_PROJECT: 'test-project' });
     expect(config.model).toBe('gemini-3.6-flash');
     expect(config.temperature).toBe(0.7);
     expect(config.location).toBe('global');
@@ -113,5 +114,9 @@ describe('loadConfig', () => {
     expect(config.project).toBe('my-proj');
     expect(config.model).toBe('other');
     expect(config.bucket).toBe('gs://my-proj-hidock');
+  });
+
+  it('GCP_PROJECT が未設定なら例外を投げる', () => {
+    expect(() => loadConfig({})).toThrow(GCP_PROJECT_ERROR);
   });
 });

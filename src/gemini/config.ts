@@ -1,8 +1,9 @@
 /**
- * Gemini / GCS の設定。
+ * Gemini / GCS configuration.
  *
- * 値はすべて Phase 0 の実測に基づく（`fixtures/phase0-result.json`）。
- * 環境変数で上書きできるが、既定値のまま動くようにしてある。
+ * Most values are tuned from real-world testing (see `fixtures/phase0-result.json`).
+ * `GCP_PROJECT` has no default — every user has their own GCP project, so we
+ * fail fast with setup instructions rather than silently pointing at someone else's.
  */
 
 import process from 'node:process';
@@ -16,10 +17,14 @@ export interface GeminiConfig {
   readonly maxAttempts: number;
 }
 
-const DEFAULT_PROJECT = 'gemini-sandbox-464023';
-
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): GeminiConfig {
-  const project = env['GCP_PROJECT'] ?? DEFAULT_PROJECT;
+  const project = env['GCP_PROJECT'];
+  if (project === undefined || project === '') {
+    throw new Error(
+      'GCP_PROJECT is not set. Run `gcloud config set project <PROJECT_ID>` and ' +
+        'export GCP_PROJECT=<PROJECT_ID> before running hidock (see README for setup).',
+    );
+  }
 
   return {
     project,

@@ -38,7 +38,7 @@ async function makeContext(recordings: readonly Recording[]): Promise<PipelineCo
     device,
     runner: fakeRunner(),
     gemini: { fetch: globalThis.fetch, token: () => Promise.resolve('t') },
-    config: loadConfig({}),
+    config: loadConfig({ GCP_PROJECT: 'test-project' }),
     processed: await loadProcessedStore(paths.stateFile),
     paths,
   };

@@ -59,7 +59,7 @@ async function makeContext(
     device: stubDevice(),
     runner: fakeRunner({ ffprobe: { stdout: '2344.83', stderr: '' } }),
     gemini: geminiReturning('### 1. 決定事項\n- 決めた'),
-    config: loadConfig({}),
+    config: loadConfig({ GCP_PROJECT: 'test-project' }),
     processed: await loadProcessedStore(paths.stateFile),
     paths,
     ...overrides,
