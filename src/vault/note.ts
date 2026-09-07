@@ -3,10 +3,10 @@ import type { Recording } from '../device/types.ts';
 const HDA_EXTENSION = /\.hda$/i;
 
 /**
- * Obsidian に置くノートの組み立て。
+ * Builds the Obsidian note for one recording.
  *
- * Vault 側の原則に従い、これは解釈であって事実ログではない。
- * 置き先は `98-AI-Insights/hidock/` であり、`98-📅 Timestamps/` には触れない。
+ * This is an AI-generated interpretation, not a verified transcript —
+ * the note says so explicitly rather than implying it's a factual log.
  */
 
 export interface NoteParams {
@@ -41,14 +41,12 @@ function formatDurationLabel(seconds: number): string {
   const total = Math.round(seconds);
   const hours = Math.floor(total / 3600);
   const minutes = Math.round((total % 3600) / 60);
-  return hours > 0 ? `${hours}時間${minutes}分` : `${minutes}分`;
+  return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
 }
 
 /**
- * ノート本文を組み立てる。
- *
- * 冒頭に「AI による解釈であり確定ではない」ことを明示する。
- * 断定的な記録として扱われると、Vault 側の原則が崩れるため。
+ * Assembles the note body, stating up front that it's an AI draft,
+ * not a confirmed record — treating it as authoritative would be wrong.
  */
 export function buildNote(params: NoteParams): string {
   const { recording, durationSeconds, body, model, costUsd, attempts } = params;
@@ -68,10 +66,10 @@ export function buildNote(params: NoteParams): string {
   ].join('\n');
 
   const header = [
-    `# 会議メモ ${formatDateKey(at)} ${formatTime(at)}`,
+    `# Meeting Notes ${formatDateKey(at)} ${formatTime(at)}`,
     '',
-    '> AI が音声から生成した**候補**であり、確定した記録ではない。',
-    `> 録音 ${formatDurationLabel(durationSeconds)} / ${model} / $${costUsd.toFixed(4)}`,
+    '> AI-generated **draft** from audio — not a verified record.',
+    `> Recording ${formatDurationLabel(durationSeconds)} / ${model} / $${costUsd.toFixed(4)}`,
   ].join('\n');
 
   return `${frontmatter}\n\n${header}\n\n${body.trim()}\n`;

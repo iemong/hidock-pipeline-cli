@@ -57,7 +57,7 @@ describe('buildNote', () => {
   });
 
   it('確定ではなく候補であることを明示する', () => {
-    expect(buildNote(PARAMS)).toContain('確定した記録ではない');
+    expect(buildNote(PARAMS)).toContain('not a verified record');
   });
 
   it('本文をそのまま含める', () => {
