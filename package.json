@@ -1,10 +1,21 @@
 {
   "name": "hidock-pipeline",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "type": "module",
-  "description": "HiDock P1 の会議録音を吸い出し、Gemini で文字起こし・要約して Obsidian に着地させるパイプライン",
+  "description": "Pull meeting recordings off a HiDock P1, transcribe/summarize them with Gemini, and land the notes in Obsidian.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iemong/hidock-pipeline-cli.git"
+  },
+  "bin": {
+    "hidock": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=22"
   },
@@ -19,16 +30,15 @@
     "check:fix": "biome check --write --error-on-warnings .",
     "deps:cycle": "madge --circular --extensions ts src",
     "start": "node src/cli.ts",
-    "install-agent": "bash scripts/install-agent.sh",
-    "build-app": "bash scripts/build-app.sh",
-    "install-raycast": "bash scripts/install-raycast.sh"
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run verify && npm run build"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
     "@types/node": "^22.0.0",
     "@vitest/coverage-v8": "^3.0.0",
     "madge": "^8.0.0",
-    "typescript": "^5.6.0",
+    "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   },
   "dependencies": {
