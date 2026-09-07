@@ -1,0 +1,141 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.5/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!vendor",
+      "!coverage",
+      "!dist",
+      // Raycast Extension は Raycast 側の規約（Prettier ベース）に従う。
+      // raycast-env.d.ts は ray が自動生成するファイルで、
+      // こちらのルールを当てても直しようがない。
+      "!raycast-extension"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 90,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "all",
+      "complexity": {
+        "noExcessiveCognitiveComplexity": {
+          "level": "error",
+          "options": { "maxAllowedComplexity": 10 }
+        },
+        "noExcessiveLinesPerFunction": {
+          "level": "error",
+          "options": { "maxLines": 50, "skipBlankLines": true }
+        },
+        "useMaxParams": {
+          "level": "error",
+          "options": { "max": 4 }
+        },
+        // tsconfig の noPropertyAccessFromIndexSignature と直接衝突する。
+        // インデックスシグネチャからは obj['key'] でアクセスするのが
+        // 型安全であり、そちらを優先する。
+        "useLiteralKeys": "off"
+      },
+      "style": {
+        "noExcessiveLinesPerFile": {
+          "level": "error",
+          "options": { "maxLines": 300, "skipBlankLines": true }
+        },
+        // switch の default を強制しない。
+        // 判別可能ユニオンに対して default を書くと、種別を追加したときに
+        // コンパイルエラーが出なくなり網羅性チェックが無効化される。
+        // ここは型で守る方が強い。
+        "useDefaultSwitchClause": "off",
+        // export をファイル末尾に集める規約は採らない。
+        // 型定義を先頭に置く方が読みやすく、バグを防ぐ性質のルールでもない。
+        "useExportsLast": "off",
+        // 三項演算子は短い分岐では if 文より読みやすい。
+        // 複雑な入れ子は noNestedTernary と認知的複雑度が止める。
+        "noTernary": "off",
+        // バイナリ仕様のオフセットやビット幅は数値そのものが仕様であり、
+        // 定数に切り出すとかえって仕様書と対応が取りにくくなる。
+        "noMagicNumbers": "off"
+      },
+      "suspicious": {
+        // バイナリプロトコルの実装ではビット演算が本質的に必要になる
+        // (3バイト長の組み立て、予約ビットのマスクなど)。
+        "noBitwiseOperators": "off"
+      },
+      "performance": {
+        // 応答の分割受信は前のチャンクを読み終えてから次を読む必要があり、
+        // ループ内の await を避けられない。
+        "noAwaitInLoops": "off"
+      },
+      "correctness": {
+        // このプロジェクトは Node.js の CLI であり、
+        // node:fs などの利用は前提。ブラウザ向けのルールなので無効化する。
+        "noNodejsModules": "off",
+        // Qwik 固有のルール。このプロジェクトは Qwik を使っていない。
+        "useQwikValidLexicalScope": "off"
+      },
+      "security": {
+        // 日本語の文字列リテラルをエントロピーが高いと判定して
+        // 大量に誤検知するため無効化する。
+        // 秘密情報は .env に置き、.gitignore で除外している。
+        "noSecrets": "off"
+      },
+      "nursery": {
+        "noExcessiveNestedCallbacks": {
+          "level": "error",
+          "options": { "max": 3 }
+        }
+      }
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.config.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["tests/**"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noExcessiveLinesPerFunction": "off"
+          },
+          "style": {
+            "noExcessiveLinesPerFile": "off"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "files": [
+    {
+      "name": "2026Jul12-164419-Rec01.hda",
+      "createDate": "2026/07/12",
+      "createTime": "16:44:19",
+      "time": "2026-07-12 16:44:19",
+      "duration": 16.132,
+      "version": 5,
+      "length": 48396,
+      "signature": "d52aad03cb9cf53508fed4108864a5a7"
+    },
+    {
+      "name": "2026Jul12-164453-Rec02.hda",
+      "createDate": "2026/07/12",
+      "createTime": "16:44:53",
+      "time": "2026-07-12 16:44:53",
+      "duration": 24.1,
+      "version": 5,
+      "length": 72300,
+      "signature": "1319db00cc5893d333cdb10272dff180"
+    },
+    {
+      "name": "2026Jul12-194413-Wip00.hda",
+      "createDate": "2026/07/12",
+      "createTime": "19:44:13",
+      "time": "2026-07-12 19:44:13",
+      "duration": 17.376,
+      "version": 5,
+      "length": 52128,
+      "signature": "6ea8cb6f1d5284e8415406cd55ea5930"
+    },
+    {
+      "name": "2026Jul13-103142-Rec03.hda",
+      "createDate": "2026/07/13",
+      "createTime": "10:31:42",
+      "time": "2026-07-13 10:31:42",
+      "duration": 2938.948,
+      "version": 5,
+      "length": 8816844,
+      "signature": "7bcc52c4f506c7c71f2a30c730ce5696"
+    },
+    {
+      "name": "2026Jul13-200404-Wip01.hda",
+      "createDate": "2026/07/13",
+      "createTime": "20:04:04",
+      "time": "2026-07-13 20:04:04",
+      "duration": 14.304,
+      "version": 5,
+      "length": 42912,
+      "signature": "1ca73c964279848966ad182923cc8de9"
+    },
+    {
+      "name": "2026Jul13-205959-Rec04.hda",
+      "createDate": "2026/07/13",
+      "createTime": "20:59:59",
+      "time": "2026-07-13 20:59:59",
+      "duration": 6759.172,
+      "version": 5,
+      "length": 20277516,
+      "signature": "4873430954d7b3f94c5df6ddf2a1ce77"
+    },
+    {
+      "name": "2026Jul14-112937-Rec05.hda",
+      "createDate": "2026/07/14",
+      "createTime": "11:29:37",
+      "time": "2026-07-14 11:29:37",
+      "duration": 7339.204,
+      "version": 5,
+      "length": 22017612,
+      "signature": "2677f163d15311bc866261a69ad474c0"
+    },
+    {
+      "name": "2026Jul14-120022-Rec06.hda",
+      "createDate": "2026/07/14",
+      "createTime": "12:00:22",
+      "time": "2026-07-14 12:00:22",
+      "duration": 81.028,
+      "version": 5,
+      "length": 243084,
+      "signature": "ddc9390518b7442e16aaf8735d99fbbd"
+    },
+    {
+      "name": "2026Jul14-140058-Rec07.hda",
+      "createDate": "2026/07/14",
+      "createTime": "14:00:58",
+      "time": "2026-07-14 14:00:58",
+      "duration": 3458.884,
+      "version": 5,
+      "length": 10376652,
+      "signature": "00051b714b991482ba83433b997a5157"
+    },
+    {
+      "name": "2026Jul15-125857-Rec08.hda",
+      "createDate": "2026/07/15",
+      "createTime": "12:58:57",
+      "time": "2026-07-15 12:58:57",
+      "duration": 1258.852,
+      "version": 5,
+      "length": 3776556,
+      "signature": "fed94564a23a363d4f761effb2308497"
+    },
+    {
+      "name": "2026Jul17-133009-Wip02.hda",
+      "createDate": "2026/07/17",
+      "createTime": "13:30:09",
+      "time": "2026-07-17 13:30:09",
+      "duration": 16.128,
+      "version": 5,
+      "length": 48384,
+      "signature": "3382624d0acb2dee194a2a7f31344a61"
+    },
+    {
+      "name": "2026Jul21-103014-Rec09.hda",
+      "createDate": "2026/07/21",
+      "createTime": "10:30:14",
+      "time": "2026-07-21 10:30:14",
+      "duration": 718.852,
+      "version": 5,
+      "length": 2156556,
+      "signature": "4e0820e01d803352d381e80c107a32e8"
+    },
+    {
+      "name": "2026Jul21-112944-Rec10.hda",
+      "createDate": "2026/07/21",
+      "createTime": "11:29:44",
+      "time": "2026-07-21 11:29:44",
+      "duration": 7219.204,
+      "version": 5,
+      "length": 21657612,
+      "signature": "81050236a289a49ecdc85a86e62fb254"
+    },
+    {
+      "name": "2026Jul22-130112-Rec11.hda",
+      "createDate": "2026/07/22",
+      "createTime": "13:01:12",
+      "time": "2026-07-22 13:01:12",
+      "duration": 7341.796,
+      "version": 5,
+      "length": 22025388,
+      "signature": "556648aa66a75019b1c43df78be3dea9"
+    },
+    {
+      "name": "2026Jul23-163121-Rec12.hda",
+      "createDate": "2026/07/23",
+      "createTime": "16:31:21",
+      "time": "2026-07-23 16:31:21",
+      "duration": 5139.172,
+      "version": 5,
+      "length": 15417516,
+      "signature": "f4d5459bf6503e73c0962b890944198d"
+    },
+    {
+      "name": "2026Jul27-205947-Rec13.hda",
+      "createDate": "2026/07/27",
+      "createTime": "20:59:47",
+      "time": "2026-07-27 20:59:47",
+      "duration": 9379.3,
+      "version": 5,
+      "length": 28137900,
+      "signature": "da6d27cfda71a1505d81a754d8edfe32"
+    }
+  ],
+  "totalFiles": 16,
+  "totalSize": 155167356
+}

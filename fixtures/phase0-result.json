@@ -1,0 +1,60 @@
+{
+  "verifiedAt": "2026-07-28",
+  "verdict": "PASS",
+  "device": {
+    "model": "HiDock P1",
+    "vid": "0x10D6",
+    "pid": "0xB00E",
+    "versionCode": "1.4.5",
+    "fileCount": 16
+  },
+  "extractionWorks": true,
+  "extractionNotes": "stream_file() で 8.8MB を 1.1 秒で取得。バイト数はデバイス報告と完全一致。",
+  "hdaReadableByFfmpeg": true,
+  "hdaFormat": "MP3 (48000 Hz, mono, 96 kb/s)。素の MP3 であり ffmpeg が直接読める。変換ロジックの移植は不要。",
+  "audioVerified": true,
+  "audioNotes": "会議録音 Rec03 で mean -27.3 dB / max -4.0 dB。明確な音声を確認。",
+  "geminiDiarizationUsable": true,
+  "gemini": {
+    "verifiedBy": "別セッションでの実測（39分の実会議音声）",
+    "auth": "Vertex AI。APIキーではなく `gcloud auth print-access-token` を使う",
+    "project": "gemini-sandbox-464023",
+    "location": "global",
+    "endpoint": "https://aiplatform.googleapis.com/v1/projects/{project}/locations/global/publishers/google/models/{model}:generateContent",
+    "recommendedModel": "gemini-3.6-flash",
+    "modelNotes": "モデルIDはドット区切り（gemini-3-6-flash は 404）。gemini-2.5-flash は 2026-10-16 廃止予定のため採用しない。gemini-3.1-flash-lite は暴走した。",
+    "temperature": 0.7,
+    "temperatureNotes": "0 と 0.3 は繰り返しループに陥る。1.0 は暴走しないが誤認識が増える。0.7 が実測上の最適点。上限は 2.0。",
+    "thinkingBudget": 0,
+    "costPer39min": "$0.134",
+    "elapsedPer39min": "30秒",
+    "diarizationNotes": "話者分離は一貫していて実用的。gemini-2.5-pro が誤認識した箇所も正しく取れた。"
+  },
+  "knownIssues": [
+    "上流の duration 計算が全ファイル一律 3000 B/s (24kbps) 固定のため、P1 (96kbps) では報告値が実際の4倍になる。自前実装ではファイルサイズ/12000 で算出するか ffprobe に委ねること。",
+    "temperature だけでは暴走を防げない。finishReason を必ず確認し、STOP 以外なら再試行すること。これが唯一の確実な防御。",
+    "ファイル末尾に 0xFF パディングがあり ffmpeg が 'Header missing' を警告するが、デコード自体は正常。"
+  ],
+  "recordingModes": {
+    "Rec": "通常録音。会議として扱いパイプラインの対象にする",
+    "Wip": "短時間録音（実機では全て20秒未満）。対象外"
+  },
+  "fileNameFormat": "YYYYMonDD-HHMMSS-{Rec|Wip}NN.hda 例: 2026Jul13-103142-Rec03.hda",
+  "inputPath": {
+    "decision": "GCS fileData.fileUri",
+    "reason": "実機16本中5本が inline(base64) の 20MB 上限を超える。30分超の会議が送れない。",
+    "verified": "26.8MB(39分/Rec13) を fileUri で送信し finishReason=STOP。11.5秒、話者分離も機能。",
+    "bucket": "gs://gemini-sandbox-464023-hidock",
+    "lifecycle": "Age > 7日 で自動削除。毎回のクリーンアップ工程を不要にするため。",
+    "rejected": {
+      "chunking": "チャンク間で話者ラベルが繋がらず話者分離が壊れる。Gemini を選んだ理由そのものを損なう。",
+      "reencode": "話者分離は音色に依存するため劣化リスク。Gemini はバイト数でなく音声長で課金するのでコストも下がらない。",
+      "filesApi": "Vertex AI には存在しない。AI Studio 側の機能。"
+    },
+    "note": "ドキュメントにある『fileUri は 15MB まで』は Firebase AI Logic の制約で、Vertex AI の音声には適用されない（実測で確認）。"
+  },
+  "executionMode": {
+    "decision": "Standard のみ。Batch は不採用",
+    "reason": "半額（39分 $0.134→$0.067）だが非同期でキュー待ちが長く、ジョブ状態の永続化と再開処理が要る。繋いだ時に1〜3本という本数では、増える工程に対して節約額が見合わない。"
+  }
+}

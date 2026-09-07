@@ -1,0 +1,41 @@
+# === 音声・文字起こし ===
+# 商談を含む会話が外部に漏れないよう、最初から除外する。
+# GitHub は外部サービス。ここを緩めない。
+*.hda
+*.hta
+*.wav
+*.mp3
+*.m4a
+*.flac
+*.ogg
+transcripts/
+recordings/
+out/
+tmp/
+.processed/
+
+# === 大容量バイナリ ===
+*.bin
+
+# === 秘匿情報 ===
+.env
+.env.*
+!.env.example
+
+# === Node ===
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# === Python (Phase 0 の検証で使う場合) ===
+__pycache__/
+*.pyc
+.venv/
+
+# === OS ===
+.DS_Store
+
+# === Raycast Extension のビルド成果物 ===
+raycast-extension/dist/
+raycast-extension/.raycast-swift-build/
