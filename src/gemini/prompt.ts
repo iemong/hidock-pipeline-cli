@@ -1,14 +1,15 @@
 /**
- * 会議音声に対する指示。
+ * Instructions for summarizing meeting audio.
  *
- * 「AI は断定的に書かず候補を出す」という Vault 側の原則をそのまま持ち込む。
- * 実装計画も確定物ではなく候補として出させ、判断はユーザーに残す。
+ * Carries forward one rule: AI output is a draft, never a definitive
+ * record. Implementation tasks are proposed as candidates too — the
+ * user makes the actual call.
  */
 
 export interface PromptContext {
-  /** 録音日時（表示用） */
+  /** Recording timestamp (for display) */
   readonly recordedAt: Date;
-  /** 固有名詞の認識精度を上げるための語彙 */
+  /** Vocabulary hints to improve recognition of proper nouns */
   readonly vocabulary?: readonly string[] | undefined;
 }
 
@@ -24,36 +25,37 @@ export function buildMeetingPrompt(context: PromptContext): string {
   const vocabulary = context.vocabulary ?? [];
   const vocabularySection =
     vocabulary.length > 0
-      ? `\n## 語彙\n次の固有名詞が登場する可能性がある。表記を合わせること。\n${vocabulary.map((v) => `- ${v}`).join('\n')}\n`
+      ? `\n## Vocabulary\nThe following proper nouns may appear. Use this exact spelling.\n${vocabulary.map((v) => `- ${v}`).join('\n')}\n`
       : '';
 
-  return `これは ${formatDate(context.recordedAt)} に録音された会議です。
-日本語で処理し、以下の構成の Markdown だけを出力してください。前置きや後書きは不要です。
+  return `This is a meeting recorded on ${formatDate(context.recordedAt)}.
+Respond in English, and output only Markdown in the structure below. No preamble or closing remarks.
 ${vocabularySection}
-## 出力構成
+## Output structure
 
-### 1. 決定事項
-会議で確実に決まったことのみ。決まっていないことは書かない。
+### 1. Decisions
+Only things definitively decided in the meeting. Do not include anything still undecided.
 
-### 2. 未決の論点
-議論されたが結論が出ていないこと。何が対立点だったかも書く。
+### 2. Open questions
+Points that were discussed but not resolved. Note what the disagreement was, if any.
 
-### 3. 実装タスク候補
-エンジニアリング作業が発生する場合のみ。粒度と依存関係がわかるように書く。
-確定したタスクとして書かず、候補として提示すること。
-該当が無ければ「なし」とだけ書く。
+### 3. Candidate implementation tasks
+Only if engineering work came up. Write with enough granularity and
+dependency information to be actionable. Present these as candidates,
+not confirmed tasks. If none, write "None".
 
-### 4. 確認したいこと
-音声からは判断できなかった点。ユーザーが短く答えられる形の質問にする。
+### 4. Things to confirm
+Points that couldn't be determined from the audio. Phrase these as
+questions the user can answer briefly.
 
-### 5. 発言録
-話者を識別し「話者A:」のようなラベルを付けて時系列で書き起こす。
-同じ話者には最後まで同じラベルを使うこと。
-聞き取れない箇所は [不明] と書き、推測で埋めないこと。
+### 5. Transcript
+Identify speakers with labels like "Speaker A:" and transcribe in
+chronological order. Keep the same label for the same speaker
+throughout. Mark inaudible segments as [inaudible] rather than guessing.
 
-## 守ること
+## Rules
 
-- 事実と推測を必ず区別する。推測には「〜と思われる」と明示する
-- 音声に無い内容を補わない
-- 同じ内容を繰り返さない`;
+- Always distinguish fact from inference; mark inferences explicitly (e.g. "likely ...")
+- Do not add content that isn't in the audio
+- Do not repeat the same content`;
 }
