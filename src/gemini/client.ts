@@ -24,8 +24,8 @@ export class GenerationIncompleteError extends Error {
 
   constructor(finishReason: string, attempts: number) {
     super(
-      `生成が完了しなかった (finishReason=${finishReason}, ${attempts}回試行)。` +
-        'temperature を上げても防げないため、入力を分割するか手動で確認すること。',
+      `Generation did not complete (finishReason=${finishReason}, ${attempts} attempt(s)). ` +
+        'Raising temperature does not prevent this — split the input or check it manually.',
     );
     this.name = 'GenerationIncompleteError';
     this.finishReason = finishReason;
